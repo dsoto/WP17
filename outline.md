@@ -94,6 +94,10 @@
 
 <!-- survey_counts.ipynb -->
 
+Table: Number of surveys.
+Percent surveyed is the percentage of all households in each category that were given a survey.
+Valid fraction, is the percentage of all households in each category that have complete responses for the appliance ownership and usage questions.
+
 |                     |   total_surveys |   AE_count |   percent_surveyed |   valid_fraction_HH |
 |:--------------------|----------------:|-----------:|-------------------:|--------------------:|
 | PLN_grid            |             619 |        660 |           0.937879 |            0.631818 |
@@ -118,18 +122,47 @@
 - Information on the ownership of appliances and their use are combined with assumptions about the power level of appliances to form an estimate.
 
 ## Survey Electricity Use Questions
+
+- We calculate the energy use per appliance type for each household and then average over households for each appliance type to get the average energy use per overall household for each appliance type.
+- We assume the population of non-responses has the same composition as the respondents
+- We report for lighting, mobile phones, television, radio, refrigerators, fans, and rice cookers
+- From each of these appliance types, we can estimate the overall energy usage per household.
 - The survey collected information on appliance ownership and use
-- we observe appliance ownership by household
+- We observe appliance ownership by household
 - We observe the reported percentage of appliance ownership in each access type or village by summing the yes/no response and dividing by the number of respondents
 - we also observe hours per day and days per week of use
-- We report for lighting, mobile phones, television, radio, refrigerators, fans, and rice cookers
 - we estimate the power level of appliances
 - multiplying the average power by the hours of use per day gives the energy per day
 - By summing over these appliance types, we can estimate the overall electricity use
-- we assume the population of non-responses has the same composition as the respondents
+- P(appliance ownership|survey respondent) = P(appliance ownership|non-respondent)
 - if a household reported owning appliance but did not report the hours of use, we assumed the hours were the average of the other responses
 - from this, we create an estimate of the energy per day consumed if all appliances working and grid has 100% uptime
 - From this method we can estimate the total energy use as well as the contribution of each type of appliance
+- We report these measurements as per household averages over the entire survey population
+
+<!-- see notebooks from feb 2016 -->
+
+
+
+$$ E_{h,i} = P_{i} F_{i} H_{i} / 7 $$
+
+- $E_{d,i}$ is the daily energy per household for appliance type $i$
+- $P_i$ is the assumed average power for appliance type $i$
+- $F_i$ is the number of times per week appliance type $i$ is used
+- $H_i$ is the number of hours per day, on days of use, that appliance $i$ is used
+
+<!-- incorporate existing notes from lab book -->
+
+- To estimate the village energy, we calculate the average $E_{d, i}$ for households owning that appliance type and extrapolate for the whole village.
+
+<!-- fix this notation: -->
+
+$$ E_{v,i} = mean( E_{h,i} ) N_{v,h} / N_{h,i} $$
+
+- $E_{v,i}$ is the daily energy in village $v$ for appliance $i$
+- $N_{v,h}$ is the number of connected households in village $v$
+- $N_{v,i}$ is the number of households using appliance $i$
+
 - We observe two contributions to variation
     - Patterns of appliance ownership
     - Patterns of appliance usage
@@ -163,7 +196,7 @@ of each type of appliance based on current electricity access type.
 - 2016-02-22-appliance-hours-detail.ipynb
 - figure: appliance-hours-by-access-type
 
-![](./figures/energy-by-end-use.png)
+![Mean daily energy use by appliance type for each type of electricity access](./figures/energy-by-end-use.png)
 
 # Electricity Consumption Measurements
 
@@ -171,28 +204,38 @@ of each type of appliance based on current electricity access type.
 - Electricity consumption varies by connection type
 - We observe 85% or greater uptime for grid connected villages
 - We observe 15% to 25% uptime for microgrids
-- We estimate daily use by only measuring the days with a full day of
-    electricity usage
+- We estimate daily use by only measuring the days with a full day of electricity usage
 - Table:
 - rows: measured villages, access type
 - columns: average daily energy, unconstrained daily energy
+
+Table: Average daily energy on grid when energy available for the entire day.
+
+|         |   mean kWh per day |   mean kWh per day per household |   median kWh per day |
+|:--------|-------------------:|---------------------------------:|---------------------:|
+| Ajau    |           611.082  |                         5.05026  |            623.048   |
+| Asei    |           186.858  |                         5.66238  |            213.209   |
+| Atamali |            15.3702 |                         0.384255 |             16.7874  |
+| Ayapo   |            95.3872 |                         0.926089 |             97.4594  |
+| Kensio  |            10.7819 |                         0.539094 |              9.85263 |
+
 
 # Comparison of predicted and observed electricity use
 
 - We focus on the five villages in our survey that also have electricity data
 - Table or figure:
 - rows: measured villages, access type
-- columns: estimated daily energy use, observed average, unconstrained
-    daily
+- columns: estimated daily energy use, observed average, unconstrained daily
 - 2016-03-01-electricity-comparisons.ipynb
 
-- the appliance estimations underestimate the energy use observed on
-    these grids
+- the appliance estimations underestimate the energy use observed on these grids
     - constraints on electricity availability should lead to overestimation
     - ownership estimation errors
     - number of lighting points isn't observed in survey
-    - unobserved or recently acquired appliances
+    - unobserved or recently acquired appliances since survey
     - variance in power levels
+
+![Comparison of inferred and measured electricity usage in villages.](./figures/electricity-comparisons.png)
 
 # Discussion and Conclusion
 
