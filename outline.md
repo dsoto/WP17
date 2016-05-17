@@ -120,31 +120,78 @@ Valid fraction, is the percentage of all households in each category that have c
 
 - We use our survey instrument to estimate the electricity use by villages
 - Information on the ownership of appliances and their use are combined with assumptions about the power level of appliances to form an estimate.
+- We start by demonstrating patterns of ownership of appliances
+- We then add information on the patterns of usage of appliances
+- We combine these patterns of usage with assumptions and measurements of appliance power to create energy usage estimates
+- In a later section, we will compare these energy usage estimates to the measured consumption.
 
-## Survey Electricity Use Questions
+## Appliance Ownership
 
-- We calculate the energy use per appliance type for each household and then average over households for each appliance type to get the average energy use per overall household for each appliance type.
+- We infer the proportion of the village households owning a given appliance category from our survey data questions on ownership.
+- We assume that the population responding to surveys have similar ownership patterns to the non-respondents.
+- We observe the reported percentage of appliance ownership in each access type or village by summing the yes/no response and dividing by the number of respondents
+- We observe a low variation for TV, lighting, and mobile phone ownership across access types
+- These are highly desirable services with modest energy requirements
+- Surveys indicate these appliances are used in areas without central access suggesting high usage of household-level electricity generation, likely from small petrol generators.
+- We observe higher ownership of rice cookers and refrigerators in areas with grid connections
+- Since these appliances require greater power and energy, we expect grid locations
+- We observe higher radio ownership with in microgrid areas
+
+- $A_{h, i}$ a 1 or zero variable for the presence of appliance type $i$ in surveyed household $h$
+- $F_{i} = \frac{1}{N} \sum_{h}^{N} A_{h, i}$ is the fraction of households owning appliance type $i$
+- We calculate $F_{i}$ over different samples like villages or access types
+
+![Percent Ownership: Plots percentages of households reporting ownership of each type of appliance based on current electricity access type.](figures/appliance-ownership-by-access-type.png)
+
+## Patterns of Appliance Usage
+
+- We observe the variation in hours per week of usage of each type of appliance through survey questions.
+- We collect statistics on the hours per week that appliance use is reported
 - We assume the population of non-responses has the same composition as the respondents
 - We report for lighting, mobile phones, television, radio, refrigerators, fans, and rice cookers
-- From each of these appliance types, we can estimate the overall energy usage per household.
-- The survey collected information on appliance ownership and use
-- We observe appliance ownership by household
-- We observe the reported percentage of appliance ownership in each access type or village by summing the yes/no response and dividing by the number of respondents
-- we also observe hours per day and days per week of use
-- we estimate the power level of appliances
-- multiplying the average power by the hours of use per day gives the energy per day
-- By summing over these appliance types, we can estimate the overall electricity use
-- P(appliance ownership|survey respondent) = P(appliance ownership|non-respondent)
-- if a household reported owning appliance but did not report the hours of use, we assumed the hours were the average of the other responses
-- from this, we create an estimate of the energy per day consumed if all appliances working and grid has 100% uptime
-- From this method we can estimate the total energy use as well as the contribution of each type of appliance
 - We report these measurements as per household averages over the entire survey population
 
+<!-- what are the variations in appliance hours? -->
+<!-- this needs elaboration in the supplemental material -->
 <!-- see notebooks from feb 2016 -->
 
+<!-- how do I account for only appliances claiming usage -->
+- $HD_{h, i}$ is the number of hours per day that appliance type $i$ in surveyed household $h$ is used for households that report owning appliance $i$.
+- $WF_{h, i}$ is the number of times per week that appliance type $i$ in surveyed household $h$ is used for households that report owning appliance $i$.
+- $HW_{h, i} = HD_{h,i} WF_{h,i}$ is the number of hours per week that appliance type $i$ in surveyed household $h$ is used where that appliance is owned.
+- $MHW_{i} = \sum_h^{N_i} HW_{h,i}$ is the mean hours per week for each type of appliance.
+- Note that the number of households computed in the mean is different for different appliances.
 
 
-$$ E_{h,i} = P_{i} F_{i} H_{i} / 7 $$
+## Electricity Estimates
+
+- From these estimates of appliance prevalence and frequency and duration of use, we can estimate the average household energy use.
+- We also estimate the power level of appliances.
+- Multiplying the average power by the hours of use per day gives the energy per day
+- From each of these appliance types, we can estimate the overall energy usage per household.
+- We calculate the energy use per appliance type for each household and then average over households for each appliance type to get the average energy use per overall household for each appliance type.
+- By summing over these appliance types, we can estimate the overall electricity use
+- P(appliance ownership|survey respondent) = P(appliance ownership|non-respondent)
+- We perform an imputation
+- If a household reported owning appliance but did not report the hours of use, we assumed the hours were the average of the other responses
+- From this, we create an estimate of the energy per day consumed if all appliances working and grid has 100% uptime
+- From this method we can estimate the total energy use as well as the contribution of each type of appliance
+
+- $HWV_{i} = MHW_{i} F_{i} N_{v}$ is the number of hours of appliance use of type $i$ in village $v$
+
+## Averaging Methods per appliance type and access type
+
+- We convert these household measurements into a village average
+- Given the measurements in the responding households, what is our estimate of the village-level electricity consumption?
+- We average usage over a village, since this is the natural unit of new electrification in this area.
+- $E_{h, v}$ is the total daily electricity energy per household given a village
+- $E_{h, v, i}$ is the daily electricity energy per household given a village of appliance type $i$
+
+$$E_{h, v} = \sum_i E_{h, v, i}$$
+
+<!-- TODO: make notation below consistent with the above -->
+
+$$ E_{h, i} = P_{i} F_{i} H_{i} / 7 $$
 
 - $E_{d,i}$ is the daily energy per household for appliance type $i$
 - $P_i$ is the assumed average power for appliance type $i$
@@ -169,19 +216,6 @@ $$ E_{v,i} = mean( E_{h,i} ) N_{v,h} / N_{h,i} $$
 - If these villages are similar in other respects, we expect the locations with less reliable electricity to change their behavior to be similar to the grid when reliable electricity arrives.
 - Latent demand has two factors, appliance purchase and service increase
 
-## Variation in Appliance Ownership Results
-
-- We observe a low variation for TV, lighting, and mobile phone ownership across access types
-- These are highly desirable services with modest energy requirements
-- Surveys indicate these appliances are used in areas without central access suggesting high usage of household-level electricity generation, likely from small petrol generators.
-- We observe higher ownership of rice cookers and refrigerators in areas with grid connections
-- Since these appliances require greater power and energy, we expect grid locations
-- We observe higher radio ownership with in microgrid areas
-- label: appliance-ownership-by-access-type
-
-![Percent Ownership: Plots percentages of households reporting ownership
-of each type of appliance based on current electricity access type.
-](figures/appliance-ownership-by-access-type.png)
 
 ## Variation in Energy Use Results
 
