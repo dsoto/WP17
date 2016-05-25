@@ -81,16 +81,20 @@
 
 ## Survey Basic Description
 
-- The survey was designed to ask questions relevant to the electricity
-    needs of the community
-- The survey was designed and administered by Advancing Energy and Cenderwash University
-    as part of an electrification effort in the Lake Sentani region
+- The survey was designed to ask questions relevant to the electricity needs of the community
+- The survey was designed and administered by Advancing Energy and Cenderwash University as part of an electrification effort in the Lake Sentani region
 - Survey carried out in Q3 and Q4 of 2014
-- The survey used the ODK platform which allows for the electronic
-    collection of data from hand-held tablet devices
+- The survey used the ODK platform which allows for the electronic collection of data from hand-held tablet devices
 - The data was stored online using Ona
-- The survey collected data on electricity use and assets for 1184
-    households in the Lake Sentani region
+- The survey collected data on electricity use and assets for 1184 households in the Lake Sentani region
+<!-- is this different for each appliance? -->
+<!-- TODO: place these valid survey numbers in a table -->
+<!-- TODO: we don't have the valid time usage surveys tabulated -->
+<!-- TODO: decide whether or not to break these out by access type -->
+<!-- TODO: what notation should I use for village type or access type? -->
+- $N_{h}$ is the total number of households present in the area of interest
+- $N_{vos}$ is the number of surveys with valid appliance ownership responses
+- $N_{vts}$ is the number of surveys with valid appliance time usage responses
 
 <!-- survey_counts.ipynb -->
 
@@ -98,12 +102,12 @@ Table: Number of surveys.
 Percent surveyed is the percentage of all households in each category that were given a survey.
 Valid fraction, is the percentage of all households in each category that have complete responses for the appliance ownership and usage questions.
 
-|                     |   total_surveys |   AE_count |   percent_surveyed |   valid_fraction_HH |
-|:--------------------|----------------:|-----------:|-------------------:|--------------------:|
-| PLN_grid            |             619 |        660 |           0.937879 |            0.631818 |
-| PLN_microgrid       |             170 |        170 |           1        |            0.676471 |
-| community_microgrid |              54 |         60 |           0.9      |            0.75     |
-| no_access           |             341 |        398 |           0.856784 |            0.457286 |
+|                     | total_surveys | AE_count | percent_surveyed | valid_fraction_HH |
+|:--------------------|--------------:|---------:|-----------------:|------------------:|
+| PLN_grid            |           619 |      660 |         0.937879 |          0.860606 |
+| PLN_microgrid       |           170 |      170 |         1        |          0.929412 |
+| community_microgrid |            54 |       60 |         0.9      |          0.866667 |
+| no_access           |           341 |      398 |         0.856784 |          0.645729 |
 
 - The survey covered dozens of villages with different levels of electricity access.
 - 26 Villages were surveyed
@@ -136,14 +140,13 @@ Valid fraction, is the percentage of all households in each category that have c
 - We observe higher ownership of rice cookers and refrigerators in areas with grid connections
 - Since these appliances require greater power and energy, we expect grid locations
 - We observe higher radio ownership with in microgrid areas
-
-- $A_{h, i}$ a 1 or zero variable for the presence of appliance type $i$ in surveyed household $h$
-- $F_{i} = \frac{1}{N} \sum_{h}^{N} A_{h, i}$ is the fraction of households owning appliance type $i$
+- $A_{h, i}$ is a 1 or zero variable for the presence of appliance type $i$ in surveyed household $h$
+- $F_{i} = \frac{1}{N_{vos}} \sum_{h}^{N_{vos}} A_{h, i}$ is the fraction of households owning appliance type $i$ and $N_s$ is the number of households with valid appliance surveys
 - We calculate $F_{i}$ over different samples like villages or access types
 
 ![Percent Ownership: Plots percentages of households reporting ownership of each type of appliance based on current electricity access type.](figures/appliance-ownership-by-access-type.png)
 
-## Patterns of Appliance Usage
+## Appliance Usage
 
 - We observe the variation in hours per week of usage of each type of appliance through survey questions.
 - We collect statistics on the hours per week that appliance use is reported
@@ -155,12 +158,14 @@ Valid fraction, is the percentage of all households in each category that have c
 <!-- this needs elaboration in the supplemental material -->
 <!-- see notebooks from feb 2016 -->
 
-<!-- how do I account for only appliances claiming usage -->
+- $NAO_{i}$ is the number of appliance owners for appliance type $i$.
+- $NTD_{i}$ is the number of households reporting time data for each appliance
 - $HD_{h, i}$ is the number of hours per day that appliance type $i$ in surveyed household $h$ is used for households that report owning appliance $i$.
 - $WF_{h, i}$ is the number of times per week that appliance type $i$ in surveyed household $h$ is used for households that report owning appliance $i$.
 - $HW_{h, i} = HD_{h,i} WF_{h,i}$ is the number of hours per week that appliance type $i$ in surveyed household $h$ is used where that appliance is owned.
-- $MHW_{i} = \sum_h^{N_i} HW_{h,i}$ is the mean hours per week for each type of appliance.
+- $MHW_{i} = \frac{1}{NTD{i}} \sum_h^{NTD_i} HW_{h,i}$ is the mean hours per week for each type of appliance.
 - Note that the number of households computed in the mean is different for different appliances.
+
 
 
 ## Electricity Estimates
@@ -176,8 +181,9 @@ Valid fraction, is the percentage of all households in each category that have c
 - If a household reported owning appliance but did not report the hours of use, we assumed the hours were the average of the other responses
 - From this, we create an estimate of the energy per day consumed if all appliances working and grid has 100% uptime
 - From this method we can estimate the total energy use as well as the contribution of each type of appliance
-
-- $HWV_{i} = MHW_{i} F_{i} N_{v}$ is the number of hours of appliance use of type $i$ in village $v$
+- $HWV_{i} = MHW_{i} F_{i} N_{v}$ is the number of hours of appliance use of type $i$ in village $v$.
+- $F_{i}$ is calculated from the number of appliance owners and the total number of households.
+- $E_{i} = HWV_{i} P_i$ where $P_i$ is the average power of appliance type $i$.
 
 ## Averaging Methods per appliance type and access type
 
