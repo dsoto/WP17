@@ -58,66 +58,64 @@
 
 # Methods Overview
 
-- We compare observed electricity consumption with a bottom-up
-    estimation based on appliance survey data
-- Collect survey data on current per household appliance ownership
-    including hours of operation
+- We compare observed electricity consumption with a bottom-up estimation based on appliance survey data
+- Collect survey data on current per household appliance ownership including hours of operation
 - Extrapolate energy usage based on a estimations of power
 - Measure distribution of daily energy for measured villages
 - Compare predicted to observed energy usage from metered villages
 
 ## Lake Sentani Description
 
-<!-- todo: village sizes -->
+<!-- TODO: decide if we are including village sizes -->
 
-- Lake Sentani is an inland lake in Indonesia
-- Near the coastal city of Jayapura
+
+- The survey was designed and administered by Advancing Energy and Cenderwash University as part of an electrification effort in the Lake Sentani region
+- Lake Sentani is an inland lake in Indonesia near the coastal city of Jayapura
 - Many island communities
 - Area is surrounded by some grid access
-- Other areas accessed by community or utility administered microgrids
+- Other areas are serviced by community or utility administered microgrids
+- Survey carried out in Q3 and Q4 of 2014
+- 26 Villages were surveyed
+- The survey collected data on electricity use and assets for 1184 households in the Lake Sentani region
+- The survey was designed to ask questions relevant to the electricity needs of the community
+- The survey used the ODK platform which allows for the electronic collection of data from hand-held tablet devices
+- The data was stored online using Ona
+- The survey covered dozens of villages with different levels of electricity access.
+- Electricity access among the surveyed households ranged from grid access to village-level access, to only household-level sources of energy
+- We define four access types: grid, sponsored microgrid, community microgrid, no centralized
 
 
 ![Lake Sentani Satellite Photo](./figures/lake-sentani.png)
 
 ## Survey Basic Description
 
-- The survey was designed to ask questions relevant to the electricity needs of the community
-- The survey was designed and administered by Advancing Energy and Cenderwash University as part of an electrification effort in the Lake Sentani region
-- Survey carried out in Q3 and Q4 of 2014
-- The survey used the ODK platform which allows for the electronic collection of data from hand-held tablet devices
-- The data was stored online using Ona
-- The survey collected data on electricity use and assets for 1184 households in the Lake Sentani region
-<!-- is this different for each appliance? -->
-<!-- TODO: place these valid survey numbers in a table -->
-<!-- TODO: we don't have the valid time usage surveys tabulated -->
 <!-- TODO: decide whether or not to break these out by access type -->
 <!-- TODO: what notation should I use for village type or access type? -->
+<!-- TODO: should I get down to only surveys with all valid appliance and usage questions? -->
+
+
+- describe questions and appliances surveyed
+- describe what you consider valid and invalid
+- Of the total households available in a given village, the percentage surveyed ranged from 45% to 75%
+
+
 - $N_{h}$ is the total number of households present in the area of interest
 - $N_{vos}$ is the number of surveys with valid appliance ownership responses
-- $N_{vts}$ is the number of surveys with valid appliance time usage responses
+- $N_{vos} / N_{h}$ is the fraction with valid surveys
 
 <!-- survey_counts.ipynb -->
 
 Table: Number of surveys.
-Percent surveyed is the percentage of all households in each category that were given a survey.
-Valid fraction, is the percentage of all households in each category that have complete responses for the appliance ownership and usage questions.
+Percentage with Valid Surveys is the percentage of all households in each category that have complete responses for the appliance ownership questions.
 
-|                     | total_surveys | AE_count | percent_surveyed | valid_fraction_HH |
-|:--------------------|--------------:|---------:|-----------------:|------------------:|
-| PLN_grid            |           619 |      660 |         0.937879 |          0.860606 |
-| PLN_microgrid       |           170 |      170 |         1        |          0.929412 |
-| community_microgrid |            54 |       60 |         0.9      |          0.866667 |
-| no_access           |           341 |      398 |         0.856784 |          0.645729 |
+|                     |   Households Present |   Valid Surveys |   Percentage with Valid Surveys |
+|:--------------------|---------------------:|----------------:|--------------------------------:|
+| PLN_grid            |                  660 |             568 |                        0.860606 |
+| PLN_microgrid       |                  170 |             158 |                        0.929412 |
+| community_microgrid |                   60 |              52 |                        0.866667 |
+| no_access           |                  398 |             257 |                        0.645729 |
 
-- The survey covered dozens of villages with different levels of electricity access.
-- 26 Villages were surveyed
-- We define three access types: grid, microgrid, no centralized
-- Electricity access among the surveyed households ranged from grid access to village-level access, to only household-level sources of energy
-- Range of percentage of households surveyed per village
-- Average households surveyed per village
-- Percentage of households surveyed per village
-- Percentage of households by access type
-- Of the total households available in a given village, the percentage surveyed ranged from 45% to 75%
+
 
 
 # Bottom Up Electricity Estimation
@@ -140,6 +138,7 @@ Valid fraction, is the percentage of all households in each category that have c
 - We observe higher ownership of rice cookers and refrigerators in areas with grid connections
 - Since these appliances require greater power and energy, we expect grid locations
 - We observe higher radio ownership with in microgrid areas
+- We ask whether a household owns an appliance of type $h$ for several types of appliances
 - $A_{h, i}$ is a 1 or zero variable for the presence of appliance type $i$ in surveyed household $h$
 - $F_{i} = \frac{1}{N_{vos}} \sum_{h}^{N_{vos}} A_{h, i}$ is the fraction of households owning appliance type $i$ and $N_s$ is the number of households with valid appliance surveys
 - We calculate $F_{i}$ over different samples like villages or access types
@@ -158,6 +157,7 @@ Valid fraction, is the percentage of all households in each category that have c
 <!-- this needs elaboration in the supplemental material -->
 <!-- see notebooks from feb 2016 -->
 
+- $N_{vts}$ is the number of surveys with valid appliance time usage responses
 - $NAO_{i}$ is the number of appliance owners for appliance type $i$.
 - $NTD_{i}$ is the number of households reporting time data for each appliance
 - $HD_{h, i}$ is the number of hours per day that appliance type $i$ in surveyed household $h$ is used for households that report owning appliance $i$.
