@@ -5,7 +5,6 @@
 - we observe differences in appliance ownership based on access type
 - we observe differences in hourly reported use based on access type
 
-
 # Introduction
 
 ## Global Topic
@@ -133,6 +132,8 @@ Percentage with Valid Surveys is the percentage of all households in each catego
 
 <!-- -->
 
+## Appliance Ownership Results
+
 - The figure shows our estimates of $F_{i}$ the percentage of ownership for each appliance type in each of the electricity supply categories.
 - We observe over 70% ownership for TV, lighting, and mobile phone in all access types
 - These are highly desirable services with modest energy requirements
@@ -155,6 +156,7 @@ Percentage with Valid Surveys is the percentage of all households in each catego
 - We then add information on the patterns of usage of appliances
 - We combine these patterns of usage with assumptions and measurements of appliance power to create energy usage estimates
 - In a later section, we will compare these energy usage estimates to the measured consumption.
+
 
 ## Appliance Usage
 
@@ -189,7 +191,6 @@ Percentage with Valid Surveys is the percentage of all households in each catego
 
 ![Mean hours per week of appliance use for each type of electricity access](./figures/weekly-hours-by-end-use.png)
 
-<!-- EDITING: you are here -->
 
 ## Electricity Estimates
 
@@ -198,7 +199,13 @@ Percentage with Valid Surveys is the percentage of all households in each catego
 - From these estimates of appliance prevalence and frequency and duration of use, we can estimate the average household energy use.
 - We also estimate the power level of appliances and show them in Table X
 - Multiplying the average power by the hours of use per day gives the energy per day
+- $E_{h,i}$ is the daily energy per household for appliance type $i$
+- $P_i$ is the assumed average power for appliance type $i$
+- $F_i$ is the number of times per week appliance type $i$ is used
+- $H_i$ is the number of hours per day, on days of use, that appliance $i$ is used
 - $E_{h, i} = HW_{h, i} P_i$ where $P_i$ is the average energy per week of appliance type $i$ in household $h$.
+- We assumed households owning the appliance but not answering usage questions did not use the appliances resulting in a slight underestimate.
+<!-- TODO: do the calcs in the supplementary materials reflect this? -->
 - From each of these appliance types, we can estimate the overall energy usage per household.
 - We calculate the energy use per appliance type for each household and then average over households for each appliance type to get the average energy use per overall household for each appliance type.
 - By summing over these appliance types, we can estimate the overall electricity use
@@ -206,6 +213,7 @@ Percentage with Valid Surveys is the percentage of all households in each catego
 - From this method we can estimate the total energy use as well as the contribution of each type of appliance
 - Households not responding are given zero consumption for that appliance
 - Averaging all these values gives the per household consumption for each appliance type
+- The sums below are over a access type or village of interest
 
 $$ HE = \frac{1}{N_h} \sum^{N_h}_h \sum^{N_{app}}_i WE_{i,h} $$
 
@@ -220,36 +228,21 @@ Table: Estimated average power for each of the surveyed appliance classes.
 <!-- $HWV_{i} = MHW_{i} F_{i} N_{v}$ is the number of hours of appliance use of type $i$ in village $v$. -->
 <!-- $F_{i}$ is calculated from the number of appliance owners and the total number of households. -->
 
-## Averaging Methods per appliance type and access type
+<!-- EDITING: you are here -->
 
-- We convert these household measurements into a village average
-- Given the measurements in the responding households, what is our estimate of the village-level electricity consumption?
-- We average usage over a village, since this is the natural unit of new electrification in this area.
-- $E_{h, v}$ is the total daily electricity energy per household given a village
-- $E_{h, v, i}$ is the daily electricity energy per household given a village of appliance type $i$
-
-$$E_{h, v} = \sum_i E_{h, v, i}$$
-
+<!-- TODO: do we extrapolate the findings from one village to others? -->
+<!-- TODO: do we expect behavior variation inside the categories -->
 <!-- TODO: make notation below consistent with the above -->
 
-$$ E_{h, i} = P_{i} F_{i} H_{i} / 7 $$
-
-- $E_{d,i}$ is the daily energy per household for appliance type $i$
-- $P_i$ is the assumed average power for appliance type $i$
-- $F_i$ is the number of times per week appliance type $i$ is used
-- $H_i$ is the number of hours per day, on days of use, that appliance $i$ is used
 
 <!-- incorporate existing notes from lab book -->
 
+<!-- TODO: do I need to do this if my averaging already accounts for this? -->
+
+- To extend these statistics to other populations, we extrapolate given the number of households and the proportion of appliance ownership there.
 - To estimate the village energy, we calculate the average $E_{d, i}$ for households owning that appliance type and extrapolate for the whole village.
 
 <!-- fix this notation: -->
-
-$$ E_{v,i} = mean( E_{h,i} ) N_{v,h} / N_{h,i} $$
-
-- $E_{v,i}$ is the daily energy in village $v$ for appliance $i$
-- $N_{v,h}$ is the number of connected households in village $v$
-- $N_{v,i}$ is the number of households using appliance $i$
 
 - We observe two contributions to variation
     - Patterns of appliance ownership
@@ -260,6 +253,7 @@ $$ E_{v,i} = mean( E_{h,i} ) N_{v,h} / N_{h,i} $$
 
 ## Variation in Energy Use Results
 
+<!-- TODO: does this persist if we normalize for ownership? -->
 
 - Survey responses indicate more appliance use in grid connected areas.
 - This reveals a measure of latent demand
@@ -271,14 +265,13 @@ $$ E_{v,i} = mean( E_{h,i} ) N_{v,h} / N_{h,i} $$
 
 # Electricity Consumption Measurements
 
+<!-- TODO: explain and document how we determine the number of households connected -->
+
 - We observe electricity consumption by village
 - Electricity consumption varies by connection type
 - We observe 85% or greater uptime for grid connected villages
 - We observe 15% to 25% uptime for microgrids
 - We estimate daily use by only measuring the days with a full day of electricity usage
-- Table:
-- rows: measured villages, access type
-- columns: average daily energy, unconstrained daily energy
 
 Table: Average daily energy on grid when energy available for the entire day.
 
@@ -294,10 +287,6 @@ Table: Average daily energy on grid when energy available for the entire day.
 # Comparison of predicted and observed electricity use
 
 - We focus on the five villages in our survey that also have electricity data
-- Table or figure:
-- rows: measured villages, access type
-- columns: estimated daily energy use, observed average, unconstrained daily
-- 2016-03-01-electricity-comparisons.ipynb
 
 - the appliance estimations underestimate the energy use observed on these grids
     - constraints on electricity availability should lead to overestimation
